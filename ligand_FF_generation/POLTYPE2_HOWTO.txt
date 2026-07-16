@@ -1,0 +1,338 @@
+================================================================================
+  POLTYPE2 — AMOEBA Force Field Parameterization for Small Molecules
+  How-To Guide for this Project
+  Last updated: June 14 2026
+================================================================================
+
+This guide documents everything needed to re-run or extend Poltype2 AMOEBA
+parameterization on this cluster (tab-frontend.tab.sci.chula.ac.th).
+
+
+────────────────────────────────────────────────────────────────────────────────
+1. WHAT IS POLTYPE2?
+────────────────────────────────────────────────────────────────────────────────
+
+Poltype2 is an automated pipeline that generates AMOEBA polarizable force field
+parameters for small molecules. It combines:
+  - QM geometry optimization and electrostatic potential (ESP) calculations
+  - Distributed Multipole Analysis (GDMA) for atomic multipoles
+  - TINKER utilities for multipole frame assignment and fitting
+  - Torsion scanning and fitting for rotatable bonds
+
+Citation:
+  B. Walker, C. Liu, E. Wait, P. Ren, J. Comput. Chem. 2022, 43(23), 1530
+
+Output files used downstream:
+  final.key   — TINKER-format AMOEBA parameters
+  final.xyz   — TINKER XYZ with atom type assignments
+
+
+────────────────────────────────────────────────────────────────────────────────
+2. REQUIRED PROGRAMS
+────────────────────────────────────────────────────────────────────────────────
+
+Program          Version    Purpose                        Status on this system
+─────────────────────────────────────────────────────────────────────────────
+Poltype2         2.3.1      Main parameterization engine   INSTALLED
+Python           3.10       Required by Poltype2 (>=3.10)  INSTALLED
+Psi4             1.9.1      QM calculations (opt, ESP)     INSTALLED
+xTB              latest     Conformer pre-optimization     INSTALLED
+GDMA             latest     Distributed multipole analysis INSTALLED
+TINKER           8.x        Molecular mechanics utilities  INSTALLED
+Perl             system     avgmpoles.pl script            INSTALLED (system)
+OpenBabel        system     Format conversion (mol2→sdf)   INSTALLED
+
+NOTE: Python 3.9 does NOT work — Poltype2 uses type union syntax (str | dict)
+that requires Python 3.10+.
+
+
+────────────────────────────────────────────────────────────────────────────────
+3. INSTALLATION LOCATIONS
+────────────────────────────────────────────────────────────────────────────────
+
+Poltype2 source:
+  /data/home/aaamir2/poltype2/master/
+  Entry point: /data/home/aaamir2/poltype2/master/PoltypeModules/poltype.py
+
+Conda environments:
+  poltype2-env-py310   — Python 3.10, Psi4 1.9.1, RDKit, OpenBabel, etc.
+                         Path: /data/home/aaamir2/miniconda3/envs/poltype2-env-py310/
+  xtbenv               — Contains the xTB binary
+                         Path: /data/home/aaamir2/miniconda3/envs/xtbenv/
+                         xTB binary: /data/home/aaamir2/miniconda3/envs/xtbenv/bin/xtb
+
+TINKER binaries:
+  /data/home/aaamir2/tinker/bin/
+  Used executables (with .x symlinks created manually):
+    poledit.x   → poledit   (multipole frame assignment)
+    potential.x → potential  (ESP fitting)
+    minimize.x  → minimize   (energy minimization)
+    analyze.x   → analyze    (energy analysis / dipole check)
+    superpose.x → superpose  (RMSD comparison)
+
+  IMPORTANT: Poltype2 requires executables with ".x" suffix.
+  These symlinks were created with:
+    cd /data/home/aaamir2/tinker/bin/
+    for exe in poledit potential minimize analyze superpose; do
+        ln -sf $exe ${exe}.x
+    done
+
+GDMA binary:
+  /data/home/aaamir2/poltype2/gdma/bin/gdma
+
+Scratch directory:
+  /tab1/aaamir2/scratch    (must exist before running)
+
+
+────────────────────────────────────────────────────────────────────────────────
+4. REQUIRED ENVIRONMENT VARIABLES
+────────────────────────────────────────────────────────────────────────────────
+
+These must be set before running Poltype2 (already in run_poltype.sh):
+
+  TINKERDIR=/data/home/aaamir2/tinker/bin/
+    — Tells Poltype2 where to find TINKER executables
+
+  PSI_SCRATCH=/tab1/aaamir2/scratch
+    — Psi4 scratch directory for temporary integral files
+
+  GAUSS_SCRDIR=/tab1/aaamir2/scratch
+    — Override the broken system default (/aaamir2/scratch which does not exist)
+      The system Gaussian install points to a non-existent path; this overrides it.
+
+  NOTE: The system environment has GAUSS_SCRDIR=/aaamir2/scratch/ (broken path).
+  Always override it in the run script or Poltype2 will fail immediately.
+
+
+────────────────────────────────────────────────────────────────────────────────
+5. REQUIRED INPUT FILES
+────────────────────────────────────────────────────────────────────────────────
+
+Place these files in the same directory as poltype.ini before running:
+
+(a) ligand.sdf  — Structure in SDF/MDL format
+    - Must encode the net charge (e.g., M  CHG  1   1   1 for +1 on atom 1)
+    - Generate from mol2 with:
+        conda run -n poltype2-env-py310 obabel ligand.mol2 -O ligand.sdf
+    - Verify charge is correct:
+        grep "CHG" ligand.sdf
+
+    For this project (1-aminoadamantane / amantadine):
+      Net charge = +1  (protonated amine, N.4 in mol2)
+      File: /tab1/aaamir2/Christian_Openmm_project/AMOEBA/test2_with_ligand/
+            ligand_ff/poltype2_run/ligand.sdf
+
+(b) poltype.ini — Configuration file (see Section 6)
+
+
+────────────────────────────────────────────────────────────────────────────────
+6. POLTYPE.INI CONFIGURATION
+────────────────────────────────────────────────────────────────────────────────
+
+File location: same directory as ligand.sdf
+
+Current working configuration for this project:
+
+  structure=ligand.sdf       # Input structure file (SDF format)
+  numproc=8                  # Number of CPU threads for Psi4
+  maxmem=12GB                # Memory limit for Psi4
+  maxdisk=50GB               # Disk limit for Psi4 scratch files
+  totalcharge=1              # Net molecular charge (IMPORTANT: match actual charge)
+  rotalltors=False           # False = only scan truly rotatable bonds
+                             # True  = scan ALL torsions (very slow for cage/ring systems)
+  quickdatabasesearch=True   # Use fast SMARTS matching (required for cage molecules)
+                             # False = exhaustive MCS search (hangs on adamantane-like cages)
+
+IMPORTANT NOTES ON OPTIONS:
+  - rotalltors=True causes combinatorial explosion for cage molecules (adamantane
+    has no freely rotatable bonds; setting True causes 20+ minute hangs).
+    Always use rotalltors=False for rigid/cage structures.
+  - quickdatabasesearch=True is essential for molecules with cage or bicyclic
+    topology. The default (False) runs an exhaustive MCS search that can hang
+    indefinitely on symmetric cage structures.
+  - totalcharge MUST match the formal charge in the SDF file.
+
+
+────────────────────────────────────────────────────────────────────────────────
+7. KNOWN BUG FIX: rdFMCS timeout
+────────────────────────────────────────────────────────────────────────────────
+
+A bug was found and patched in:
+  /data/home/aaamir2/poltype2/master/PoltypeModules/torsiondatabaseparser.py
+
+The function FindMaximumCommonSubstructures calls rdFMCS.FindMCS without a
+timeout, causing indefinite hangs on symmetric cage molecules like adamantane.
+
+Fix applied (both occurrences at lines ~3149 and ~3723):
+  BEFORE: res=rdFMCS.FindMCS(mols)
+  AFTER:  res=rdFMCS.FindMCS(mols, timeout=2)
+
+This caps each SMARTS match at 2 seconds. For 405 database entries, worst-case
+is ~14 minutes instead of infinite hang. Most matches complete in <0.01 seconds.
+
+If you update/reinstall poltype2, re-apply this patch.
+
+
+────────────────────────────────────────────────────────────────────────────────
+8. HOW TO RUN POLTYPE2
+────────────────────────────────────────────────────────────────────────────────
+
+Step 1: Prepare input files
+    mkdir -p /your/run/directory
+    cp ligand.sdf /your/run/directory/
+    # Create poltype.ini (see Section 6)
+
+Step 2: Run using the provided script
+    bash /tab1/aaamir2/Christian_Openmm_project/AMOEBA/test2_with_ligand/
+         ligand_ff/poltype2_run/run_poltype.sh
+
+    Contents of run_poltype.sh:
+    ──────────────────────────────────────────────────────
+    #!/bin/bash
+    cd "$(dirname "$0")"
+    source /data/home/aaamir2/miniconda3/etc/profile.d/conda.sh
+    conda activate poltype2-env-py310
+    export TINKERDIR=/data/home/aaamir2/tinker/bin/
+    export PSI_SCRATCH=/tab1/aaamir2/scratch
+    export GAUSS_SCRDIR=/tab1/aaamir2/scratch
+    python /data/home/aaamir2/poltype2/master/PoltypeModules/poltype.py \
+        > poltype.log 2>&1 &
+    echo "Poltype2 started with PID $!"
+    echo "Monitor progress: tail -f poltype.log"
+    ──────────────────────────────────────────────────────
+
+Step 3: Monitor progress
+    tail -f poltype.log                         # main output (buffered)
+    tail -f Temp/ligand-poltype.log             # detailed timestamped log
+    ls -lt Temp/                                # watch new files appear
+
+Step 4: Check completion
+    ls Temp/final.key Temp/final.xyz            # must both exist
+    grep "Poltype Job Finished" Temp/ligand-poltype.log
+
+
+────────────────────────────────────────────────────────────────────────────────
+9. POLTYPE2 PIPELINE STAGES AND TIMING (for 1-aminoadamantane, 29 atoms)
+────────────────────────────────────────────────────────────────────────────────
+
+Stage                                     Duration    Output files
+─────────────────────────────────────────────────────────────────────────────
+1. Atom type classification                ~13 sec    Temp/ligand.mol
+2. xTB conformer pre-optimization          ~12 sec    Temp/ConfGen/xtbopt.xyz
+3. Psi4 geometry optimization (MP2/TZ)     ~73 sec    Temp/ligand-opt_1.xyz
+4. SMARTS database search                  ~21 min    Temp/ligand.key (initial)
+5. Psi4 single point for GDMA (MP2/TZ)     ~60 sec    Temp/ligand-dma.fchk
+6. GDMA multipole analysis                 ~1 sec     Temp/ligand.gdmaout
+7. TINKER poledit (multipole frames)       ~1 sec     Temp/ligand.key_2
+8. Psi4 high-level ESP (MP2/aug-cc-pVTZ)  ~47 min    Temp/ligand-esp.log
+9. ESP cube generation + TINKER fitting    ~7 sec     Temp/grid.dat
+10. Average multipoles by symmetry         ~3 sec     Temp/ligand.key_2
+11. lDatabaseParser (bonded params)        ~5 sec     Temp/tmpbonded.key
+12. lDatabaseParser (vdw/GK/polar)        ~5 sec     Temp/ligand_prefitvdw.key
+13. lDatabaseParser (torsions)             ~1 sec     Temp/ligand_postfittorsion.key
+14. Fragment torsion ESP (Psi4)            ~18 sec    Temp/Fragments/*/
+15. Fragment GDMA + poledit + fitting      ~30 sec    Temp/Fragments/*/
+16. Structure RMSD + dipole check          ~1 sec     Temp/MMDipole.txt
+17. Final output                           —          Temp/final.key, Temp/final.xyz
+
+Total wall time: ~70 minutes (dominated by steps 4 and 8)
+
+Quality checks on completion:
+  Structure RMSD = 0.019 Å  (tolerance 1 Å)         ✓
+  MM dipole      = 7.908 D  vs QM = 7.909 D (0.01%) ✓
+
+
+────────────────────────────────────────────────────────────────────────────────
+10. CONVERTING OUTPUT TO OPENMM XML
+────────────────────────────────────────────────────────────────────────────────
+
+After Poltype2 completes, run the conversion script:
+
+  cd /tab1/aaamir2/Christian_Openmm_project/AMOEBA/test2_with_ligand/ligand_ff/
+  conda activate poltype2-env-py310
+  python key_to_xml.py
+
+Input:
+  poltype2_run/final.key   — TINKER AMOEBA parameters
+  poltype2_run/final.xyz   — TINKER XYZ with atom types
+  ligand.mol2              — Atom names and bond connectivity
+
+Output:
+  ligand_amoeba.xml        — OpenMM-format AMOEBA force field XML
+
+Unit conversions used (verified against OpenMM TinkerFiles source):
+  Bond k:        kcal/mol/Å²  × 418.4  → kJ/mol/nm²
+  Angle k:       kcal/mol/deg² × 4.184 × (π/180)² → kJ/mol/rad²
+  StretchBend k: kcal/mol/Å/deg × 41.84 × (π/180) → kJ/mol/nm/rad
+  Torsion amp:   kcal/mol × 4.184 → kJ/mol
+  VdW sigma:     Å × 0.1 → nm
+  VdW epsilon:   kcal/mol × 4.184 → kJ/mol
+  Dipoles:       e·Bohr × 0.1 × 0.52918 → e·nm
+  Quadrupoles:   e·Bohr² × 0.01 × 0.52918² / 3 → e·nm²
+  Polarizability:Å³ × 0.001 → nm³
+
+Copy the XML to the simulation directory:
+  cp ligand_amoeba.xml \
+     /tab1/aaamir2/Christian_Openmm_project/AMOEBA/test1_just_protein/complex_simulation/
+
+
+────────────────────────────────────────────────────────────────────────────────
+11. FILE LOCATIONS SUMMARY
+────────────────────────────────────────────────────────────────────────────────
+
+Poltype2 run directory:
+  /tab1/aaamir2/Christian_Openmm_project/AMOEBA/test2_with_ligand/ligand_ff/poltype2_run/
+  ├── ligand.sdf              Input structure (with charge M  CHG  1   1   1)
+  ├── poltype.ini             Configuration
+  ├── run_poltype.sh          Launch script
+  ├── poltype.log             Main stdout log
+  └── Temp/                   All intermediate and output files
+      ├── final.key           TINKER AMOEBA parameters  ← KEY OUTPUT
+      ├── final.xyz           TINKER XYZ with types     ← KEY OUTPUT
+      └── ligand-poltype.log  Timestamped stage log
+
+XML conversion:
+  /tab1/aaamir2/Christian_Openmm_project/AMOEBA/test2_with_ligand/ligand_ff/
+  ├── ligand.mol2             Source atom names and connectivity
+  ├── key_to_xml.py           TINKER→OpenMM XML converter
+  └── ligand_amoeba.xml       OpenMM AMOEBA XML           ← FINAL OUTPUT
+
+OpenMM simulation:
+  /tab1/aaamir2/Christian_Openmm_project/AMOEBA/test1_just_protein/complex_simulation/
+  ├── complex.pdb             Protein + ligand structure (unsolvated)
+  ├── ligand_amoeba.xml       Ligand FF (copied from above)
+  ├── amoeba_complex_npt.py   NPT simulation script
+  └── npt_complex.sh          SLURM submission script
+
+
+────────────────────────────────────────────────────────────────────────────────
+12. TROUBLESHOOTING
+────────────────────────────────────────────────────────────────────────────────
+
+ERROR: Cannot find Tinker poledit.x executable
+  → TINKERDIR not set, or .x symlinks not created.
+  Fix: export TINKERDIR=/data/home/aaamir2/tinker/bin/
+       cd $TINKERDIR && for exe in poledit potential minimize analyze superpose;
+           do ln -sf $exe ${exe}.x; done
+
+ERROR: [Errno 2] No such file or directory: '/aaamir2/scratch'
+  → System GAUSS_SCRDIR points to non-existent path.
+  Fix: export GAUSS_SCRDIR=/tab1/aaamir2/scratch  (already in run_poltype.sh)
+
+ERROR: Cannot find Tinker poledit.x / xtbopt.xyz not found
+  → xTB not found. Poltype2 expects it in a conda env named 'xtbenv'.
+  Fix: conda create -n xtbenv -c conda-forge xtb -y
+
+Poltype2 hangs for 20+ minutes on "Searching Database"
+  → rdFMCS.FindMCS has no timeout (cage/symmetric molecule issue).
+  Fix: Patch already applied to torsiondatabaseparser.py (see Section 7).
+       Also ensure: rotalltors=False and quickdatabasesearch=True in poltype.ini
+
+TypeError: unsupported operand type(s) for |: 'type' and 'type'
+  → Wrong Python version (3.9). Use poltype2-env-py310 (Python 3.10).
+  Fix: conda activate poltype2-env-py310  (already in run_poltype.sh)
+
+Unrecognized option in poltype.ini
+  → tinkerdir is NOT a valid poltype.ini option. Use TINKERDIR env var instead.
+
+================================================================================
