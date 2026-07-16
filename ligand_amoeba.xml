@@ -1,0 +1,169 @@
+<ForceField>
+ <AtomTypes>
+  <Type name="401" class="401" element="N" mass="14.007"/>
+  <Type name="402" class="402" element="C" mass="12.011"/>
+  <Type name="403" class="403" element="C" mass="12.011"/>
+  <Type name="404" class="404" element="C" mass="12.011"/>
+  <Type name="405" class="405" element="C" mass="12.011"/>
+  <Type name="406" class="406" element="H" mass="1.008"/>
+  <Type name="407" class="407" element="H" mass="1.008"/>
+  <Type name="408" class="408" element="H" mass="1.008"/>
+  <Type name="409" class="409" element="H" mass="1.008"/>
+ </AtomTypes>
+ <Residues>
+  <Residue name="308">
+   <Atom name="N" type="401" />
+   <Atom name="C1" type="402" />
+   <Atom name="C2" type="403" />
+   <Atom name="C3" type="404" />
+   <Atom name="C4" type="403" />
+   <Atom name="C5" type="404" />
+   <Atom name="C6" type="405" />
+   <Atom name="C7" type="405" />
+   <Atom name="C8" type="403" />
+   <Atom name="C9" type="404" />
+   <Atom name="C10" type="405" />
+   <Atom name="H1" type="406" />
+   <Atom name="H2" type="406" />
+   <Atom name="H3" type="406" />
+   <Atom name="H4" type="407" />
+   <Atom name="H5" type="407" />
+   <Atom name="H6" type="408" />
+   <Atom name="H7" type="407" />
+   <Atom name="H8" type="407" />
+   <Atom name="H9" type="408" />
+   <Atom name="H10" type="409" />
+   <Atom name="H11" type="409" />
+   <Atom name="H12" type="409" />
+   <Atom name="H13" type="409" />
+   <Atom name="H14" type="407" />
+   <Atom name="H15" type="407" />
+   <Atom name="H16" type="408" />
+   <Atom name="H17" type="409" />
+   <Atom name="H18" type="409" />
+   <Bond from="0" to="13" />
+   <Bond from="0" to="11" />
+   <Bond from="0" to="12" />
+   <Bond from="0" to="1" />
+   <Bond from="1" to="8" />
+   <Bond from="1" to="2" />
+   <Bond from="1" to="4" />
+   <Bond from="2" to="14" />
+   <Bond from="2" to="15" />
+   <Bond from="2" to="3" />
+   <Bond from="3" to="16" />
+   <Bond from="3" to="6" />
+   <Bond from="3" to="10" />
+   <Bond from="4" to="18" />
+   <Bond from="4" to="17" />
+   <Bond from="4" to="5" />
+   <Bond from="5" to="19" />
+   <Bond from="5" to="6" />
+   <Bond from="5" to="7" />
+   <Bond from="6" to="20" />
+   <Bond from="6" to="21" />
+   <Bond from="7" to="22" />
+   <Bond from="7" to="9" />
+   <Bond from="7" to="23" />
+   <Bond from="8" to="25" />
+   <Bond from="8" to="24" />
+   <Bond from="8" to="9" />
+   <Bond from="9" to="10" />
+   <Bond from="9" to="26" />
+   <Bond from="10" to="28" />
+   <Bond from="10" to="27" />
+  </Residue>
+ </Residues>
+ <AmoebaBondForce bond-cubic="-25.5" bond-quartic="379.3125">
+  <Bond class1="401" class2="402" length="0.14646000" k="62283.107680"/>
+  <Bond class1="401" class2="406" length="0.10297000" k="181853.794400"/>
+  <Bond class1="402" class2="403" length="0.14764000" k="89613.623280"/>
+  <Bond class1="403" class2="404" length="0.14989000" k="89613.623280"/>
+  <Bond class1="403" class2="407" length="0.10993000" k="141411.292240"/>
+  <Bond class1="404" class2="405" length="0.15000000" k="89613.623280"/>
+  <Bond class1="404" class2="408" length="0.10901000" k="141411.292240"/>
+  <Bond class1="405" class2="409" length="0.10970000" k="141411.292240"/>
+ </AmoebaBondForce>
+ <AmoebaAngleForce angle-cubic="-0.014" angle-quartic="5.6e-05" angle-pentic="-7e-07" angle-sextic="2.2e-08">
+  <Angle class1="402" class2="401" class3="406" k="0.1587538672" angle1="111.1694" inPlane="False"/>
+  <Angle class1="406" class2="401" class3="406" k="0.1073818184" angle1="107.7210" inPlane="False"/>
+  <Angle class1="401" class2="402" class3="403" k="0.0857729812" angle1="108.0338" inPlane="False"/>
+  <Angle class1="403" class2="402" class3="403" k="0.1258313772" angle1="110.8696" inPlane="False"/>
+  <Angle class1="402" class2="403" class3="404" k="0.1258313772" angle1="107.9066" inPlane="False"/>
+  <Angle class1="402" class2="403" class3="407" k="0.0637215034" angle1="109.3640" inPlane="False"/>
+  <Angle class1="404" class2="403" class3="407" k="0.0637215034" angle1="110.1694" inPlane="False"/>
+  <Angle class1="407" class2="403" class3="407" k="0.0386381992" angle1="109.5430" inPlane="False"/>
+  <Angle class1="403" class2="404" class3="405" k="0.1258313772" angle1="109.2360" inPlane="False"/>
+  <Angle class1="403" class2="404" class3="408" k="0.0637215034" angle1="108.4017" inPlane="False"/>
+  <Angle class1="405" class2="404" class3="405" k="0.1258313772" angle1="109.9528" inPlane="False"/>
+  <Angle class1="405" class2="404" class3="408" k="0.0637215034" angle1="109.9925" inPlane="False"/>
+  <Angle class1="404" class2="405" class3="404" k="0.1258313772" angle1="109.5833" inPlane="False"/>
+  <Angle class1="404" class2="405" class3="409" k="0.0637215034" angle1="109.3190" inPlane="False"/>
+  <Angle class1="409" class2="405" class3="409" k="0.0386381992" angle1="108.9710" inPlane="False"/>
+ </AmoebaAngleForce>
+ <AmoebaStretchBendForce stretchBendUnit="1.0">
+  <StretchBend class1="402" class2="401" class3="406" k1="8.16144568" k2="8.16144568" />
+  <StretchBend class1="406" class2="401" class3="406" k1="21.80243646" k2="21.80243646" />
+  <StretchBend class1="401" class2="402" class3="403" k1="5.29106867" k2="5.29106867" />
+  <StretchBend class1="403" class2="402" class3="403" k1="17.72532833" k2="17.72532833" />
+  <StretchBend class1="402" class2="403" class3="404" k1="17.72532833" k2="17.72532833" />
+  <StretchBend class1="402" class2="403" class3="407" k1="17.72532833" k2="17.72532833" />
+  <StretchBend class1="404" class2="403" class3="407" k1="17.72532833" k2="17.72532833" />
+  <StretchBend class1="407" class2="403" class3="407" k1="17.72532833" k2="17.72532833" />
+  <StretchBend class1="403" class2="404" class3="405" k1="17.72532833" k2="17.72532833" />
+  <StretchBend class1="403" class2="404" class3="408" k1="17.72532833" k2="17.72532833" />
+  <StretchBend class1="405" class2="404" class3="405" k1="17.72532833" k2="17.72532833" />
+  <StretchBend class1="405" class2="404" class3="408" k1="17.72532833" k2="17.72532833" />
+  <StretchBend class1="404" class2="405" class3="404" k1="17.72532833" k2="17.72532833" />
+  <StretchBend class1="404" class2="405" class3="409" k1="17.72532833" k2="17.72532833" />
+  <StretchBend class1="409" class2="405" class3="409" k1="17.72532833" k2="17.72532833" />
+ </AmoebaStretchBendForce>
+ <AmoebaTorsionForce torsionUnit="0.5">
+  <Proper class1="401" class2="402" class3="403" class4="407"   k1="0.00000000" phase1="0.0000000000" periodicity1="1"   k2="0.00000000" phase2="3.1415926536" periodicity2="2"   k3="0.45187200" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="401" class2="402" class3="403" class4="404"   k1="3.57313600" phase1="0.0000000000" periodicity1="1"   k2="-1.56481600" phase2="3.1415926536" periodicity2="2"   k3="0.45187200" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="406" class2="401" class3="402" class4="403"   k1="-0.01673600" phase1="0.0000000000" periodicity1="1"   k2="-0.01673600" phase2="3.1415926536" periodicity2="2"   k3="0.75312000" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="402" class2="403" class3="404" class4="405"   k1="3.57313600" phase1="0.0000000000" periodicity1="1"   k2="-1.56481600" phase2="3.1415926536" periodicity2="2"   k3="0.45187200" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="403" class2="402" class3="403" class4="404"   k1="3.57313600" phase1="0.0000000000" periodicity1="1"   k2="-1.56481600" phase2="3.1415926536" periodicity2="2"   k3="0.45187200" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="403" class2="404" class3="405" class4="404"   k1="3.57313600" phase1="0.0000000000" periodicity1="1"   k2="-1.56481600" phase2="3.1415926536" periodicity2="2"   k3="0.45187200" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="404" class2="405" class3="404" class4="405"   k1="3.57313600" phase1="0.0000000000" periodicity1="1"   k2="-1.56481600" phase2="3.1415926536" periodicity2="2"   k3="0.45187200" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="402" class2="403" class3="404" class4="408"   k1="0.00000000" phase1="0.0000000000" periodicity1="1"   k2="0.00000000" phase2="3.1415926536" periodicity2="2"   k3="0.45187200" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="403" class2="402" class3="403" class4="407"   k1="0.00000000" phase1="0.0000000000" periodicity1="1"   k2="0.00000000" phase2="3.1415926536" periodicity2="2"   k3="0.45187200" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="403" class2="404" class3="405" class4="409"   k1="0.00000000" phase1="0.0000000000" periodicity1="1"   k2="0.00000000" phase2="3.1415926536" periodicity2="2"   k3="0.45187200" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="404" class2="405" class3="404" class4="408"   k1="0.00000000" phase1="0.0000000000" periodicity1="1"   k2="0.00000000" phase2="3.1415926536" periodicity2="2"   k3="0.45187200" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="405" class2="404" class3="403" class4="407"   k1="0.00000000" phase1="0.0000000000" periodicity1="1"   k2="0.00000000" phase2="3.1415926536" periodicity2="2"   k3="0.45187200" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="405" class2="404" class3="405" class4="409"   k1="0.00000000" phase1="0.0000000000" periodicity1="1"   k2="0.00000000" phase2="3.1415926536" periodicity2="2"   k3="0.45187200" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="407" class2="403" class3="404" class4="408"   k1="0.00000000" phase1="0.0000000000" periodicity1="1"   k2="0.00000000" phase2="3.1415926536" periodicity2="2"   k3="1.25101600" phase3="0.0000000000" periodicity3="3" />
+  <Proper class1="408" class2="404" class3="405" class4="409"   k1="0.00000000" phase1="0.0000000000" periodicity1="1"   k2="0.00000000" phase2="3.1415926536" periodicity2="2"   k3="1.25101600" phase3="0.0000000000" periodicity3="3" />
+ </AmoebaTorsionForce>
+ <AmoebaVdwForce type="BUFFERED-14-7" radiusrule="CUBIC-MEAN" radiustype="R-MIN" radiussize="DIAMETER" epsilonrule="HHG" vdw-13-scale="0.0" vdw-14-scale="1.0" vdw-15-scale="1.0" >
+  <Vdw class="401" sigma="0.37100000" epsilon="0.43932000" reduction="0.0000"/>
+  <Vdw class="402" sigma="0.36000000" epsilon="0.43513600" reduction="0.0000"/>
+  <Vdw class="403" sigma="0.38200000" epsilon="0.42258400" reduction="0.0000"/>
+  <Vdw class="404" sigma="0.36500000" epsilon="0.42258400" reduction="0.0000"/>
+  <Vdw class="405" sigma="0.38200000" epsilon="0.42258400" reduction="0.0000"/>
+  <Vdw class="406" sigma="0.24803000" epsilon="0.08158800" reduction="0.9200"/>
+  <Vdw class="407" sigma="0.29600000" epsilon="0.10041600" reduction="0.9200"/>
+  <Vdw class="408" sigma="0.29800000" epsilon="0.10041600" reduction="0.9400"/>
+  <Vdw class="409" sigma="0.29600000" epsilon="0.10041600" reduction="0.9200"/>
+ </AmoebaVdwForce>
+ <AmoebaMultipoleForce  direct11Scale="0.0"  direct12Scale="1.0"  direct13Scale="1.0"  direct14Scale="1.0"  mpole12Scale="0.0"  mpole13Scale="0.0"  mpole14Scale="0.4"  mpole15Scale="0.8"  mutual11Scale="1.0"  mutual12Scale="1.0"  mutual13Scale="1.0"  mutual14Scale="1.0"  polar12Scale="0.0"  polar13Scale="0.0"  polar14Intra="0.5"  polar14Scale="1.0"  polar15Scale="1.0"  >
+  <Multipole type="401" axisType="1" kz="406" kx="406" ky="406" c0="0.21767" d1="5.2917720859e-07" d2="0.0" d3="-0.01470371791788174" q11="-0.0001603069923232209" q21="0.0" q22="-0.00016027898947141176" q31="0.0" q32="0.0" q33="0.0003205859817946326"  />
+  <Multipole type="402" axisType="4" kz="401" c0="-0.10552" d1="0.0" d2="0.0" d3="0.01097354777453083" q11="-1.2815971844636208e-05" q21="0.0" q22="-1.2815971844636208e-05" q31="0.0" q32="0.0" q33="2.5631943689272416e-05"  />
+  <Multipole type="403" kz="402" kx="404" c0="-0.12652" d1="0.01555516404650305" d2="0.0" d3="0.020874982524458317" q11="0.0001506926798687596" q21="0.0" q22="-0.0006627341594822802" q31="-5.7891228973367636e-05" q32="0.0" q33="0.0005120414796135207"  />
+  <Multipole type="404" kz="403" kx="408" c0="-0.07583" d1="-0.018120085976538778" d2="0.0" d3="0.01121644011327364" q11="-0.0006009038626877645" q21="0.0" q22="0.00029484202669812377" q31="0.0002715436539929439" q32="0.0" q33="0.0003060618359896407"  />
+  <Multipole type="405" axisType="1" kz="404" kx="404" c0="-0.1426" d1="0.0" d2="0.0" d3="0.024810473424742147" q11="0.0005176233814074701" q21="0.0" q22="-0.0007026568918781354" q31="0.0" q32="0.0" q33="0.0001850335104706654"  />
+  <Multipole type="406" kz="401" kx="402" c0="0.18433" d1="0.00039106195714801" d2="0.0" d3="-0.00785986907918727" q11="-1.1854540599190085e-06" q21="0.0" q22="7.187398631005012e-06" q31="2.839489173443798e-05" q32="0.0" q33="-6.001944571086004e-06"  />
+  <Multipole type="407" kz="403" kx="402" c0="0.08242" d1="-0.00033443999582888" d2="0.0" d3="-0.00238606003353231" q11="2.2868995644106854e-06" q21="0.0" q22="6.720684434186504e-06" q31="-8.783561184124307e-06" q32="0.0" q33="-9.007583998597191e-06"  />
+  <Multipole type="408" kz="404" kx="403" c0="0.10717" d1="3.4925695766939995e-05" d2="0.0" d3="-0.00034131929954055" q11="8.680884060824236e-07" q21="0.0" q22="1.084643793406211e-05" q31="1.0781097946507517e-05" q32="0.0" q33="-1.1714526340144532e-05"  />
+  <Multipole type="409" kz="405" kx="409" c0="0.09228" d1="-0.00028840157868155" d2="0.0" d3="-0.0013546936539904" q11="-1.7763142330912385e-05" q21="0.0" q22="7.271407186432343e-06" q31="5.469890386712905e-06" q32="0.0" q33="1.0491735144480044e-05"  />
+  <Polarize type="401" polarizability="0.000661000000" thole="0.39" pgrp1="406" />
+  <Polarize type="402" polarizability="0.000686000000" thole="0.39"  />
+  <Polarize type="403" polarizability="0.001415000000" thole="0.39" pgrp1="407" />
+  <Polarize type="404" polarizability="0.001415000000" thole="0.39" pgrp1="408" />
+  <Polarize type="405" polarizability="0.001415000000" thole="0.39" pgrp1="409" />
+  <Polarize type="406" polarizability="0.000222000000" thole="0.39" pgrp1="401" />
+  <Polarize type="407" polarizability="0.000480000000" thole="0.39" pgrp1="403" />
+  <Polarize type="408" polarizability="0.000480000000" thole="0.39" pgrp1="404" />
+  <Polarize type="409" polarizability="0.000480000000" thole="0.39" pgrp1="405" />
+ </AmoebaMultipoleForce>
+</ForceField>
