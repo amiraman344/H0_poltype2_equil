@@ -1,5 +1,6 @@
 traj/
 out/
+analysis/
 error*.out
 *.dcd
 *.rst
