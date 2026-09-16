@@ -1,0 +1,24 @@
+/data/home/aaamir2/miniconda3/envs/openmm_env/lib/python3.11/site-packages/MDAnalysis/coordinates/DCD.py:171: DeprecationWarning: DCDReader currently makes independent timesteps by copying self.ts while other readers update self.ts inplace. This behavior will be changed in 3.0 to be the same as other readers. Read more at https://github.com/MDAnalysis/mdanalysis/issues/3889 to learn if this change in behavior might affect you.
+  warnings.warn("DCDReader currently makes independent timesteps"
+Trajectories: ['npt_1.dcd', 'npt_2.dcd', 'npt_3.dcd', 'npt_4.dcd', 'npt_5.dcd', 'npt_6.dcd', 'npt_7.dcd', 'npt_8.dcd', 'npt_9.dcd', 'npt_10.dcd']
+  PROA: 25 CA atoms, resids 22–46
+  PROB: 25 CA atoms, resids 22–46
+  PROC: 25 CA atoms, resids 22–46
+  PROD: 25 CA atoms, resids 22–46
+
+HSD ND1 atoms found: 4
+  segid=PROA resid=37 name=ND1
+  segid=PROB resid=37 name=ND1
+  segid=PROC resid=37 name=ND1
+  segid=PROD resid=37 name=ND1
+
+Mean cross-distance (top Cα): 8.9 Å  (paper pol/pol H0 top: ~20.1 Å)
+Mean cross-distance (bot Cα): 26.6 Å  (paper pol/pol H0 bot: ~22.4 Å)
+Mean His37 Nδ area:           30.4 Å²  (paper pol/pol H0+lig: ~25.8 Å²)
+Mean His37 Nδ diag1 (A↔C):   9.2 Å
+Mean His37 Nδ diag2 (B↔D):   7.7 Å  (paper pol/pol H0: ~7.1 Å)
+
+Saved: geometry.csv
+Saved: channel_cross_distances.png
+Saved: his37_tetrad_area.png
+Done.

@@ -7,3 +7,8 @@ error*.out
 *.log
 *.err
 __pycache__/
+
+# results_100ns: keep small run logs despite the blanket *.log rule above
+!results_100ns/**/*.log
+# too large for GitHub (2.5GB); kept locally only
+results_100ns/results/09_induced_dipoles/induced_dipoles_water.csv

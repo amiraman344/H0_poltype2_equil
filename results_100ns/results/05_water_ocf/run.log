@@ -1,0 +1,8 @@
+/data/home/aaamir2/miniconda3/envs/openmm_env/lib/python3.11/site-packages/MDAnalysis/coordinates/DCD.py:171: DeprecationWarning: DCDReader currently makes independent timesteps by copying self.ts while other readers update self.ts inplace. This behavior will be changed in 3.0 to be the same as other readers. Read more at https://github.com/MDAnalysis/mdanalysis/issues/3889 to learn if this change in behavior might affect you.
+  warnings.warn("DCDReader currently makes independent timesteps"
+Computing OCF for His Nδ1...
+Computing OCF for His Nε2...
+Saved: ocf.csv
+Saved: water_ocf_nd1.png
+Saved: water_ocf_ne2.png
+Done.

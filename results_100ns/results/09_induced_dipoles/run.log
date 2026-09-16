@@ -1,0 +1,108 @@
+/data/home/aaamir2/miniconda3/envs/openmm_env/lib/python3.11/site-packages/MDAnalysis/coordinates/DCD.py:171: DeprecationWarning: DCDReader currently makes independent timesteps by copying self.ts while other readers update self.ts inplace. This behavior will be changed in 3.0 to be the same as other readers. Read more at https://github.com/MDAnalysis/mdanalysis/issues/3889 to learn if this change in behavior might affect you.
+  warnings.warn("DCDReader currently makes independent timesteps"
+Segments to process (in order): [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+System: 19723 atoms
+Water O: 3469  His ND1: 4  Ligand: 29
+
+--- Segment 1/10: npt_1.dcd + induced_dipoles_1.dat ---
+  Loading induced_dipoles_1.dat...
+    frame 0/1000
+    frame 200/1000
+    frame 400/1000
+    frame 600/1000
+    frame 800/1000
+  frames used this segment: 1000  (running total: 1000)
+
+--- Segment 2/10: npt_2.dcd + induced_dipoles_2.dat ---
+  Loading induced_dipoles_2.dat...
+    frame 0/1000
+    frame 200/1000
+    frame 400/1000
+    frame 600/1000
+    frame 800/1000
+  frames used this segment: 1000  (running total: 2000)
+
+--- Segment 3/10: npt_3.dcd + induced_dipoles_3.dat ---
+  Loading induced_dipoles_3.dat...
+    frame 0/1000
+    frame 200/1000
+    frame 400/1000
+    frame 600/1000
+    frame 800/1000
+  frames used this segment: 1000  (running total: 3000)
+
+--- Segment 4/10: npt_4.dcd + induced_dipoles_4.dat ---
+  Loading induced_dipoles_4.dat...
+    frame 0/1000
+    frame 200/1000
+    frame 400/1000
+    frame 600/1000
+    frame 800/1000
+  frames used this segment: 1000  (running total: 4000)
+
+--- Segment 5/10: npt_5.dcd + induced_dipoles_5.dat ---
+  Loading induced_dipoles_5.dat...
+    frame 0/1000
+    frame 200/1000
+    frame 400/1000
+    frame 600/1000
+    frame 800/1000
+  frames used this segment: 1000  (running total: 5000)
+
+--- Segment 6/10: npt_6.dcd + induced_dipoles_6.dat ---
+  Loading induced_dipoles_6.dat...
+    frame 0/1000
+    frame 200/1000
+    frame 400/1000
+    frame 600/1000
+    frame 800/1000
+  frames used this segment: 1000  (running total: 6000)
+
+--- Segment 7/10: npt_7.dcd + induced_dipoles_7.dat ---
+  Loading induced_dipoles_7.dat...
+    frame 0/1000
+    frame 200/1000
+    frame 400/1000
+    frame 600/1000
+    frame 800/1000
+  frames used this segment: 1000  (running total: 7000)
+
+--- Segment 8/10: npt_8.dcd + induced_dipoles_8.dat ---
+  Loading induced_dipoles_8.dat...
+    frame 0/1000
+    frame 200/1000
+    frame 400/1000
+    frame 600/1000
+    frame 800/1000
+  frames used this segment: 1000  (running total: 8000)
+
+--- Segment 9/10: npt_9.dcd + induced_dipoles_9.dat ---
+  Loading induced_dipoles_9.dat...
+    frame 0/1000
+    frame 200/1000
+    frame 400/1000
+    frame 600/1000
+    frame 800/1000
+  frames used this segment: 1000  (running total: 9000)
+
+--- Segment 10/10: npt_10.dcd + induced_dipoles_10.dat ---
+  Loading induced_dipoles_10.dat...
+    frame 0/1000
+    frame 200/1000
+    frame 400/1000
+    frame 600/1000
+    frame 800/1000
+  frames used this segment: 1000  (running total: 10000)
+
+Total frames analyzed: 10000
+Saved: induced_dipoles_water.csv, induced_dipoles_protein.csv, induced_dipoles_ligand.csv
+
+Channel water (<8 Å from His37) mean |mu_ind| = 0.4690 D
+Bulk water    (>15 Å from His37) mean |mu_ind| = 0.5196 D
+Ratio (channel/bulk): 0.903x
+Saved: induced_dipole_water_vs_distance.png
+Saved: induced_dipole_channel_vs_bulk.png
+Saved: induced_dipole_protein.png
+Saved: induced_dipole_ligand.png
+
+Done.
