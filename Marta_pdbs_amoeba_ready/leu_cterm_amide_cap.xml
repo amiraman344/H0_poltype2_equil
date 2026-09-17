@@ -1,0 +1,85 @@
+<ForceField>
+ <!--
+   Custom residue template: C-terminal Leu46 fused with its N-methylamide
+   cap into ONE residue (PDB resName "LEU", one resSeq), instead of a
+   separate "NME" residue.
+
+   Atom types are reused as-is from OpenMM's built-in amoeba2018.xml:
+     - atoms 0-18 (Leu backbone/sidechain): same types as the standard
+       internal "LEU" residue (types 7-24), since a residue capped by an
+       amide is electronically a normal internal peptide bond, not a
+       carboxylate (that's what "CLEU" is for).
+     - atoms 19-24 (amide cap N,H,CH3,3xH): same types as the standard
+       "NME" residue (types 227-230).
+   All bonded/multipole/polarization parameters for those types are
+   already defined in amoeba2018.xml keyed by atom class, so nothing
+   else needs to be duplicated here; this template only declares the
+   atom list and the bond graph (LEU internal bonds + NME internal bonds
+   + one new internal bond replacing what used to be an ExternalBond on
+   both sides: LEU's C to NME's N).
+
+   Load together with amoeba2018.xml, e.g.:
+     ForceField("amoeba2018.xml", "leu_cterm_amide_cap.xml", "popc_poltype2.xml")
+ -->
+ <Residues>
+  <!-- Named distinctly from the built-in "LEU" template on purpose: OpenMM
+       keeps one template per name (registering another under "LEU" would
+       replace, not supplement, the standard 19-atom Leu used everywhere
+       else in the chain). The PDB residue itself is still named "LEU";
+       ForceField falls back to matching by atom/bond signature when the
+       name-based lookup's atom count doesn't fit, which is how this gets
+       found regardless of its own internal name here. -->
+  <Residue name="LEU_CTERM_AMIDE_CAP">
+   <Atom name="C"    type="9" />
+   <Atom name="CA"   type="8" />
+   <Atom name="CB"   type="19" />
+   <Atom name="CD1"  type="23" />
+   <Atom name="CD2"  type="23" />
+   <Atom name="CG"   type="21" />
+   <Atom name="HN"   type="10" />
+   <Atom name="HA"   type="12" />
+   <Atom name="HB1"  type="20" />
+   <Atom name="HB2"  type="20" />
+   <Atom name="HD11" type="24" />
+   <Atom name="HD12" type="24" />
+   <Atom name="HD13" type="24" />
+   <Atom name="HD21" type="24" />
+   <Atom name="HD22" type="24" />
+   <Atom name="HD23" type="24" />
+   <Atom name="HG"   type="22" />
+   <Atom name="N"    type="7" />
+   <Atom name="O"    type="11" />
+   <Atom name="NAM"  type="227" />
+   <Atom name="HAM"  type="228" />
+   <Atom name="CAM"  type="229" />
+   <Atom name="HAM1" type="230" />
+   <Atom name="HAM2" type="230" />
+   <Atom name="HAM3" type="230" />
+   <Bond from="0" to="1" />
+   <Bond from="0" to="18" />
+   <Bond from="1" to="2" />
+   <Bond from="1" to="7" />
+   <Bond from="1" to="17" />
+   <Bond from="2" to="5" />
+   <Bond from="2" to="9" />
+   <Bond from="2" to="8" />
+   <Bond from="3" to="5" />
+   <Bond from="3" to="12" />
+   <Bond from="3" to="11" />
+   <Bond from="3" to="10" />
+   <Bond from="4" to="5" />
+   <Bond from="4" to="14" />
+   <Bond from="4" to="15" />
+   <Bond from="4" to="13" />
+   <Bond from="5" to="16" />
+   <Bond from="6" to="17" />
+   <Bond from="0" to="19" />
+   <Bond from="19" to="20" />
+   <Bond from="19" to="21" />
+   <Bond from="21" to="22" />
+   <Bond from="21" to="23" />
+   <Bond from="21" to="24" />
+   <ExternalBond from="17" />
+  </Residue>
+ </Residues>
+</ForceField>
